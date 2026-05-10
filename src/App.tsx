@@ -5,9 +5,19 @@ import { TopBar } from "./components/layout/TopBar";
 import { PAGE_TITLES, SIDEBAR_ACTIVE_KEY } from "./components/layout/navConfig";
 import { USERS } from "./mock/users";
 
+// Batch 1
 import { DashboardPage } from "./pages/Dashboard";
 import { ProjectsPage } from "./pages/Projects";
 import { ProjectDetailPage } from "./pages/ProjectDetail";
+
+// Batch 2
+import { VehiclesPage } from "./pages/Vehicles";
+import { VehicleDetailPage } from "./pages/VehicleDetail";
+import { VehicleCheckFormPage } from "./pages/VehicleCheckForm";
+import { PlatesPage } from "./pages/Plates";
+import { PlateTimelinePage } from "./pages/PlateTimeline";
+import { RoutesPage } from "./pages/Routes";
+import { PoisPage } from "./pages/POIs";
 
 function PagePlaceholder({ name }: { name: string }) {
   return (
@@ -15,9 +25,7 @@ function PagePlaceholder({ name }: { name: string }) {
       <div className="bg-white rounded-2xl border border-slate-200/80 p-10 max-w-2xl">
         <h2 className="text-lg font-semibold text-slate-900">{name}</h2>
         <p className="text-sm text-slate-500 mt-2">
-          This page is being migrated to the new Vite + TypeScript project structure.
-          The wiring (sidebar, top bar, mock data, types, status styles) is already in place —
-          page bodies are next.
+          This page will be migrated in batch 3.
         </p>
       </div>
     </div>
@@ -29,8 +37,9 @@ function App() {
   const [currentUserId, setCurrentUserId] = useState<string>("U001"); // Sarah Mitchell, PMO
   const [showMobile, setShowMobile] = useState(false);
 
-  // For drill-through navigation
+  // Drill-through selection state
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
 
   const currentUser: User = USERS.find((u) => u.id === currentUserId)!;
   const sidebarActive = SIDEBAR_ACTIVE_KEY[page];
@@ -38,6 +47,11 @@ function App() {
   const openProject = (projectId: string) => {
     setSelectedProjectId(projectId);
     setPage("project-detail");
+  };
+
+  const openVehicle = (vehicleId: string) => {
+    setSelectedVehicleId(vehicleId);
+    setPage("vehicle-detail");
   };
 
   let body: React.ReactNode;
@@ -56,29 +70,56 @@ function App() {
       break;
     case "project-detail":
       body = selectedProjectId ? (
-        <ProjectDetailPage
-          projectId={selectedProjectId}
-          onBack={() => setPage("projects")}
-        />
+        <ProjectDetailPage projectId={selectedProjectId} onBack={() => setPage("projects")} />
       ) : (
         <ProjectsPage onOpen={openProject} />
       );
       break;
-    case "vehicles":        body = <PagePlaceholder name="Vehicles" />; break;
-    case "vehicle-detail":  body = <PagePlaceholder name="Vehicle Detail" />; break;
-    case "vehicle-check":   body = <PagePlaceholder name="Vehicle Check" />; break;
-    case "plates":          body = <PagePlaceholder name="Trade Plates" />; break;
-    case "plate-timeline":  body = <PagePlaceholder name="Plate Allocation Timeline" />; break;
-    case "routes":          body = <PagePlaceholder name="Routes" />; break;
-    case "pois":            body = <PagePlaceholder name="POIs" />; break;
-    case "tasks":           body = <PagePlaceholder name="Daily Tasks" />; break;
-    case "staff":           body = <PagePlaceholder name="Staff Assignment" />; break;
-    case "attendance":      body = <PagePlaceholder name="Attendance" />; break;
-    case "issues":          body = <PagePlaceholder name="Issues & Risks" />; break;
-    case "expenses":        body = <PagePlaceholder name="Expenses" />; break;
-    case "files":           body = <PagePlaceholder name="Files" />; break;
-    case "users":           body = <PagePlaceholder name="Users & Roles" />; break;
-    case "settings":        body = <PagePlaceholder name="Settings" />; break;
+    case "vehicles":
+      body = <VehiclesPage onOpen={openVehicle} />;
+      break;
+    case "vehicle-detail":
+      body = selectedVehicleId ? (
+        <VehicleDetailPage
+          vehicleId={selectedVehicleId}
+          onBack={() => setPage("vehicles")}
+          onNav={setPage}
+          onOpenProject={openProject}
+        />
+      ) : (
+        <VehiclesPage onOpen={openVehicle} />
+      );
+      break;
+    case "vehicle-check":
+      body = (
+        <VehicleCheckFormPage
+          vehicleId={selectedVehicleId ?? undefined}
+          onBack={() => setPage(selectedVehicleId ? "vehicle-detail" : "vehicles")}
+        />
+      );
+      break;
+    case "plates":
+      body = <PlatesPage onNav={setPage} />;
+      break;
+    case "plate-timeline":
+      body = <PlateTimelinePage />;
+      break;
+    case "routes":
+      body = <RoutesPage />;
+      break;
+    case "pois":
+      body = <PoisPage />;
+      break;
+
+    // Batch 3 placeholders
+    case "tasks":      body = <PagePlaceholder name="Daily Tasks" />; break;
+    case "staff":      body = <PagePlaceholder name="Staff Assignment" />; break;
+    case "attendance": body = <PagePlaceholder name="Attendance" />; break;
+    case "issues":     body = <PagePlaceholder name="Issues & Risks" />; break;
+    case "expenses":   body = <PagePlaceholder name="Expenses" />; break;
+    case "files":      body = <PagePlaceholder name="Files" />; break;
+    case "users":      body = <PagePlaceholder name="Users & Roles" />; break;
+    case "settings":   body = <PagePlaceholder name="Settings" />; break;
   }
 
   return (
@@ -89,7 +130,7 @@ function App() {
         currentUser={currentUser}
         onSwitchUser={setCurrentUserId}
       />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         <TopBar
           pageTitle={PAGE_TITLES[page]}
           currentUser={currentUser}
@@ -105,7 +146,7 @@ function App() {
         >
           <div className="bg-white rounded-2xl p-8 max-w-md" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-semibold mb-2">Driver Mobile View</h3>
-            <p className="text-sm text-slate-500">Coming in the next migration step.</p>
+            <p className="text-sm text-slate-500">Coming in batch 3.</p>
           </div>
         </div>
       )}

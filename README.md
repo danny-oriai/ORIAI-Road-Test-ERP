@@ -70,13 +70,13 @@ Step 7.
 
 | Page                            | Status |
 |---------------------------------|--------|
-| Dashboard                       | ✅ done |
-| Projects                        | ✅ done |
-| Project Detail (11 tabs)        | ✅ done |
-| Vehicles / Vehicle Detail       | ⏳ batch 2 |
-| Vehicle Check Form              | ⏳ batch 2 |
-| Plates / Plate Timeline         | ⏳ batch 2 |
-| Routes / POIs                   | ⏳ batch 2 |
+| Dashboard                       | ✅ batch 1 |
+| Projects                        | ✅ batch 1 |
+| Project Detail (11 tabs)        | ✅ batch 1 |
+| Vehicles / Vehicle Detail       | ✅ batch 2 |
+| Vehicle Check Form              | ✅ batch 2 |
+| Plates / Plate Timeline         | ✅ batch 2 |
+| Routes / POIs                   | ✅ batch 2 |
 | Tasks / Staff / Attendance      | ⏳ batch 3 |
 | Issues / Expenses / Files       | ⏳ batch 3 |
 | Users & Roles / Settings        | ⏳ batch 3 |

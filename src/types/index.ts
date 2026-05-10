@@ -109,6 +109,8 @@ export interface PlateAllocation {
   conflict?: boolean;
 }
 
+export type RiskLevel = "Low" | "Medium" | "High";
+
 export interface Route {
   id: string;
   name: string;
@@ -118,17 +120,36 @@ export interface Route {
   duration: string;
   type: "Highway" | "Urban" | "Rural" | "Mixed";
   pois: number;
+  riskLevel: RiskLevel;
+  gpxFile: string | null;          // filename or null if not uploaded
+  mapsLink: string | null;         // Google Maps share URL
+  status: "Active" | "Draft" | "Archived";
 }
+
+export type PoiType =
+  | "Charging"
+  | "Parking"
+  | "Risk Point"
+  | "Service Area"
+  | "Start Point"
+  | "Data Handover"
+  | "Camera Site"
+  | "Test Site"
+  | "Boundary"
+  | "Junction";
 
 export interface POI {
   id: string;
   name: string;
-  type: string;
+  type: PoiType;
   lat: number;
   lng: number;
   city: string;
+  address: string;
   route: string;
   project: string;
+  notes: string;
+  hasPhoto: boolean;
 }
 
 export type TaskStatus =
