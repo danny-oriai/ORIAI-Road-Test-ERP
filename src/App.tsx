@@ -19,18 +19,16 @@ import { PlateTimelinePage } from "./pages/PlateTimeline";
 import { RoutesPage } from "./pages/Routes";
 import { PoisPage } from "./pages/POIs";
 
-function PagePlaceholder({ name }: { name: string }) {
-  return (
-    <div className="p-8">
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-10 max-w-2xl">
-        <h2 className="text-lg font-semibold text-slate-900">{name}</h2>
-        <p className="text-sm text-slate-500 mt-2">
-          This page will be migrated in batch 3.
-        </p>
-      </div>
-    </div>
-  );
-}
+// Batch 3
+import { TasksPage } from "./pages/Tasks";
+import { StaffPage } from "./pages/Staff";
+import { AttendancePage } from "./pages/Attendance";
+import { IssuesPage } from "./pages/Issues";
+import { ExpensesPage } from "./pages/Expenses";
+import { FilesPage } from "./pages/Files";
+import { UsersPage } from "./pages/Users";
+import { SettingsPage } from "./pages/Settings";
+import { MobileDriverView } from "./pages/MobileDriverView";
 
 function App() {
   const [page, setPage] = useState<PageKey>("dashboard");
@@ -53,6 +51,14 @@ function App() {
     setSelectedVehicleId(vehicleId);
     setPage("vehicle-detail");
   };
+
+  // For the mobile preview, default to whichever Driver is most likely to have a task today;
+  // fall back to the current user if they happen to be a driver, otherwise pick a fixed driver
+  // so the screen renders with content even when impersonating a PMO/Admin.
+  const previewDriverId =
+    currentUser.role === "Driver"
+      ? currentUser.id
+      : USERS.find((u) => u.role === "Driver")?.id ?? "U001";
 
   let body: React.ReactNode;
   switch (page) {
@@ -111,15 +117,31 @@ function App() {
       body = <PoisPage />;
       break;
 
-    // Batch 3 placeholders
-    case "tasks":      body = <PagePlaceholder name="Daily Tasks" />; break;
-    case "staff":      body = <PagePlaceholder name="Staff Assignment" />; break;
-    case "attendance": body = <PagePlaceholder name="Attendance" />; break;
-    case "issues":     body = <PagePlaceholder name="Issues & Risks" />; break;
-    case "expenses":   body = <PagePlaceholder name="Expenses" />; break;
-    case "files":      body = <PagePlaceholder name="Files" />; break;
-    case "users":      body = <PagePlaceholder name="Users & Roles" />; break;
-    case "settings":   body = <PagePlaceholder name="Settings" />; break;
+    // Batch 3
+    case "tasks":
+      body = <TasksPage onOpenProject={openProject} onNav={setPage} />;
+      break;
+    case "staff":
+      body = <StaffPage />;
+      break;
+    case "attendance":
+      body = <AttendancePage />;
+      break;
+    case "issues":
+      body = <IssuesPage />;
+      break;
+    case "expenses":
+      body = <ExpensesPage />;
+      break;
+    case "files":
+      body = <FilesPage />;
+      break;
+    case "users":
+      body = <UsersPage />;
+      break;
+    case "settings":
+      body = <SettingsPage />;
+      break;
   }
 
   return (
@@ -140,15 +162,10 @@ function App() {
       </div>
 
       {showMobile && (
-        <div
-          className="fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center"
-          onClick={() => setShowMobile(false)}
-        >
-          <div className="bg-white rounded-2xl p-8 max-w-md" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-semibold mb-2">Driver Mobile View</h3>
-            <p className="text-sm text-slate-500">Coming in batch 3.</p>
-          </div>
-        </div>
+        <MobileDriverView
+          onClose={() => setShowMobile(false)}
+          driverUserId={previewDriverId}
+        />
       )}
     </div>
   );

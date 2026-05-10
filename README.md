@@ -77,9 +77,10 @@ Step 7.
 | Vehicle Check Form              | ✅ batch 2 |
 | Plates / Plate Timeline         | ✅ batch 2 |
 | Routes / POIs                   | ✅ batch 2 |
-| Tasks / Staff / Attendance      | ⏳ batch 3 |
-| Issues / Expenses / Files       | ⏳ batch 3 |
-| Users & Roles / Settings        | ⏳ batch 3 |
-| Mobile Driver View              | ⏳ batch 3 |
+| Tasks / Staff / Attendance      | ✅ batch 3 |
+| Issues / Expenses / Files       | ✅ batch 3 |
+| Users & Roles / Settings        | ✅ batch 3 |
+| Mobile Driver View              | ✅ batch 3 |
 
-Pages not yet migrated render a placeholder card; the rest of the shell still works.
+**Step 1 frontend prototype complete — 19 pages, mock data only.**
+Next: Step 4 Supabase schema → Step 6 Workers API → Step 7 Lark OAuth.
