@@ -1,0 +1,23 @@
+{
+  "name": "road-test-erp-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Road Test Management ERP — Cloudflare Workers API",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "build": "tsc --noEmit",
+    "deploy": "wrangler deploy",
+    "lint": "tsc --noEmit",
+    "secret:put": "wrangler secret put"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "hono": "^4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241011.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.80.0"
+  }
+}

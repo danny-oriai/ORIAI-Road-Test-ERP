@@ -1,0 +1,30 @@
+# =============================================================
+#  Cloudflare Workers configuration for Road Test ERP API
+#  Run `wrangler secret put <KEY>` to set SUPABASE_URL,
+#  SUPABASE_SERVICE_ROLE_KEY, SUPABASE_ANON_KEY (do NOT put them
+#  in this file — it goes to GitHub).
+# =============================================================
+
+name = "road-test-erp-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Non-sensitive variables only. Anything secret goes in wrangler
+# secrets via the CLI; see README.
+[vars]
+SUPABASE_SCHEMA = "rtm"
+FRONTEND_ORIGIN = "https://road-test-erp.pages.dev"
+ALLOW_LOCALHOST = "true"
+
+# Default observability (optional, free tier).
+[observability]
+enabled = true
+
+# Per-environment overrides — production uses a stricter CORS origin
+# and disables localhost. Switch with `wrangler deploy --env production`.
+[env.production]
+[env.production.vars]
+SUPABASE_SCHEMA = "rtm"
+FRONTEND_ORIGIN = "https://road-test-erp.pages.dev"
+ALLOW_LOCALHOST = "false"

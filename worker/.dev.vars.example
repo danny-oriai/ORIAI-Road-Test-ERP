@@ -1,0 +1,10 @@
+# ============================================================
+#  Wrangler local-dev secrets — copy this file to .dev.vars and
+#  fill in your real values. .dev.vars is gitignored.
+#
+#  For production use `wrangler secret put <KEY>` instead.
+# ============================================================
+
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...service_role_secret...
+SUPABASE_ANON_KEY=eyJhbGciOi...anon_public_key...
