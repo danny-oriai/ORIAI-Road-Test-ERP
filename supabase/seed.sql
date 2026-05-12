@@ -12,18 +12,18 @@
 --  intermediate SELECTs.
 -- =============================================================
 
-SET search_path TO rtm, public;
+SET search_path TO rtm, public, extensions;
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
 
 -- Stable namespace UUID (one per project). Generated once via uuidgen.
 -- Do not change — every legacy_id-derived UUID is anchored on this.
 --   namespace = 'b0a7d6e2-9c8e-5f4f-8e1d-3b6a2c1d5e7f'
-\set ns 'b0a7d6e2-9c8e-5f4f-8e1d-3b6a2c1d5e7f'
 
--- Convenience macro: id_of('U001') -> deterministic uuid.
--- (psql variable interpolation; pure SQL would need a function — see below.)
+-- Convenience helper: _id('U001') -> deterministic uuid.
 CREATE OR REPLACE FUNCTION rtm._id(legacy text)
 RETURNS uuid AS $$
-  SELECT uuid_generate_v5('b0a7d6e2-9c8e-5f4f-8e1d-3b6a2c1d5e7f'::uuid, legacy);
+  SELECT extensions.uuid_generate_v5('b0a7d6e2-9c8e-5f4f-8e1d-3b6a2c1d5e7f'::uuid, legacy);
 $$ LANGUAGE sql IMMUTABLE;
 
 
